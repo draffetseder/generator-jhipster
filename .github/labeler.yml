@@ -102,6 +102,9 @@
           - '**/*.gradle'
           - '**/gradle/**/*'
 
+'theme: aws':
+  - generators/aws/**/*
+
 'theme: Heroku':
   - changed-files:
       - any-glob-to-any-file:

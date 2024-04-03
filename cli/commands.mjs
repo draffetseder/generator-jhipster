@@ -32,8 +32,7 @@ const defaultCommands = {
     desc: '[Default] Create a new JHipster application based on the selected options',
   },
   aws: {
-    desc: 'Deploy the current application to Amazon Web Services',
-    removed: removedV8,
+    desc: '[Modified] Deploy the current application to Amazon Web Services',
   },
   'azure-app-service': {
     desc: 'Deploy the current application to Azure App Service',

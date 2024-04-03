@@ -19,13 +19,13 @@
 import chalk from 'chalk';
 import runAsync from 'run-async';
 
-import BaseGenerator from '../base/index.mjs';
+import BaseGenerator from '../base/index.js';
 import prompts from './prompts.mjs';
 import AwsFactory from './lib/aws.mjs';
-import statistics from '../statistics.mjs';
-import { GENERATOR_AWS } from '../generator-list.mjs';
-import { databaseTypes } from '../../jdl/jhipster/index.mjs';
-import { buildApplication } from '../server/internal/index.mjs';
+import statistics from '../statistics.js';
+import { GENERATOR_AWS } from '../generator-list.js';
+import { databaseTypes } from '../../jdl/jhipster/index.js';
+import { buildApplication } from './lib/legacy_build.js';
 
 const { MYSQL, POSTGRESQL, MARIADB } = databaseTypes;
 

@@ -18,7 +18,7 @@
  */
 
 export const GENERATOR_ANGULAR = 'angular';
-export const GENERATOR_AWS = "aws";
+export const GENERATOR_AWS = 'aws';
 export const GENERATOR_APP = 'app';
 export const GENERATOR_BASE = 'base';
 export const GENERATOR_BASE_APPLICATION = 'base-application';

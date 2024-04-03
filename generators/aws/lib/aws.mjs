@@ -24,34 +24,43 @@ import Iam from './iam.mjs';
 let Aws;
 let generator;
 
-const AwsFactory = function AwsFactory(generatorRef, cb) {
-  generator = generatorRef;
-  try {
-    Aws = require('aws-sdk'); // eslint-disable-line
-    cb();
-  } catch (e) {
-    throw new Error(`Something went wrong while running jhipster:aws:\n${e}`);
+class AwsFactory {
+  constructor(generatorRef, cb) {
+    generator = generatorRef;
+    // Store the promise of the dynamic import
+    this.awsLoaded = import('aws-sdk').then(module => {
+      Aws = module.default;
+      cb();
+    }).catch(e => {
+      throw new Error(`Something went wrong while running jhipster:aws:\n${e}`);
+    });
   }
-};
 
-AwsFactory.prototype.init = function initAws(options) {
-  Aws.config.region = options.region;
-};
+  async init(options) {
+    await this.awsLoaded; // Ensure Aws is loaded
+    Aws.config.region = options.region;
+  }
 
-AwsFactory.prototype.getS3 = function getS3() {
-  return new S3(Aws, generator);
-};
+  async getS3() {
+    await this.awsLoaded; // Ensure Aws is loaded
+    return new S3(Aws, generator);
+  }
 
-AwsFactory.prototype.getRds = function getRds() {
-  return new Rds(Aws, generator);
-};
+  async getRds() {
+    await this.awsLoaded; // Ensure Aws is loaded
+    return new Rds(Aws, generator);
+  }
 
-AwsFactory.prototype.getEb = function getEb() {
-  return new Eb(Aws, generator);
-};
+  async getEb() {
+    await this.awsLoaded; // Ensure Aws is loaded
+    return new Eb(Aws, generator);
+  }
 
-AwsFactory.prototype.getIam = function getIa() {
-  return new Iam(Aws, generator);
-};
+  async getIam() {
+    await this.awsLoaded; // Ensure Aws is loaded
+    return new Iam(Aws, generator);
+  }
+}
+
 
 export default AwsFactory;

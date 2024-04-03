@@ -17,24 +17,19 @@
  * limitations under the License.
  */
 
+import {v4 as uuidv4} from 'uuid';
+
 let aws;
-let uuidV4;
 
 const Eb = function Eb(Aws) {
   aws = Aws;
-  try {
-    const { v4 } = require('uuid'); // eslint-disable-line
-    uuidV4 = v4;
-  } catch (e) {
-    throw new Error(`Something went wrong while running jhipster:aws:\n${e}`);
-  }
 };
 
 Eb.prototype.createApplication = function createApplication(params, callback) {
   const applicationName = params.applicationName;
   const bucketName = params.bucketName;
   const warKey = params.warKey;
-  const versionLabel = `${this.warKey}-${uuidV4()}`;
+  const versionLabel = `${warKey}-${uuidv4()}`;
   const environmentName = params.environmentName;
   const dbUrl = params.dbUrl;
   const dbUsername = params.dbUsername;

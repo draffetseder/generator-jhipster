@@ -16,22 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import ProgressBar from 'progress';
 import fs from 'fs';
-import { buildToolTypes } from '../../../jdl/jhipster/index.mjs';
+import { buildToolTypes } from '../../../jdl/jhipster/index.js';
 
 const { GRADLE } = buildToolTypes;
 const FILE_EXTENSION = '.war';
 const S3_STANDARD_REGION = 'us-east-1';
 
-let Progressbar;
 
 const S3 = function S3(Aws) {
   this.Aws = Aws;
-  try {
-    Progressbar = require('progress'); // eslint-disable-line
-  } catch (e) {
-    throw new Error(`Something went wrong while running jhipster:aws:\n${e}`);
-  }
 };
 
 S3.prototype.createBucket = function createBucket(params, callback) {
@@ -131,7 +126,7 @@ function uploadToS3(s3, body, callback) {
         .on('httpUploadProgress', evt => {
           if (bar === undefined && evt.total) {
             const total = evt.total / 1000000;
-            bar = new Progressbar('uploading [:bar] :percent :etas', {
+            bar = new ProgressBar('uploading [:bar] :percent :etas', {
               complete: '=',
               incomplete: ' ',
               width: 20,

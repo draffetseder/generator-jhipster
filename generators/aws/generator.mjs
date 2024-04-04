@@ -105,9 +105,9 @@ export default class AwsGenerator extends BaseGenerator {
       insight() {
         statistics.sendSubGenEvent('generator', GENERATOR_AWS);
       },
-      createAwsFactory: runAsync(function () {
+      createAwsFactory: runAsync(async function() {
         const cb = this.async();
-        this.awsFactory.init({ region: this.awsRegion });
+        await this.awsFactory.init({ region: this.awsRegion });
         cb();
       }),
       saveConfig() {
@@ -146,12 +146,12 @@ export default class AwsGenerator extends BaseGenerator {
           process.stdout.write(data.toString());
         });
       }),
-      createBucket: runAsync(function () {
+      createBucket: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Create S3 bucket'));
 
-        const s3 = this.awsFactory.getS3();
+        const s3 = await this.awsFactory.getS3();
 
         s3.createBucket({ bucket: this.bucketName }, (err, data) => {
           if (err) {
@@ -166,12 +166,12 @@ export default class AwsGenerator extends BaseGenerator {
           }
         });
       }),
-      uploadWar: runAsync(function () {
+      uploadWar: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Upload WAR to S3'));
 
-        const s3 = this.awsFactory.getS3();
+        const s3 = await this.awsFactory.getS3();
 
         const params = {
           bucket: this.bucketName,
@@ -188,12 +188,12 @@ export default class AwsGenerator extends BaseGenerator {
           }
         });
       }),
-      createDatabase: runAsync(function () {
+      createDatabase: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Create database'));
 
-        const rds = this.awsFactory.getRds();
+        const rds = await this.awsFactory.getRds();
 
         const params = {
           dbInstanceClass: this.dbInstanceClass,
@@ -212,7 +212,7 @@ export default class AwsGenerator extends BaseGenerator {
           }
         });
       }),
-      createDatabaseUrl: runAsync(function () {
+      createDatabaseUrl: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Waiting for database (This may take several minutes)'));
@@ -221,7 +221,7 @@ export default class AwsGenerator extends BaseGenerator {
           this.dbEngine = POSTGRESQL;
         }
 
-        const rds = this.awsFactory.getRds();
+        const rds = await this.awsFactory.getRds();
 
         const params = {
           dbName: this.dbName,
@@ -238,11 +238,11 @@ export default class AwsGenerator extends BaseGenerator {
           }
         });
       }),
-      verifyRoles: runAsync(function () {
+      verifyRoles: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Verifying ElasticBeanstalk Roles'));
-        const iam = this.awsFactory.getIam();
+        const iam = await this.awsFactory.getIam();
         iam.verifyRoles({}, err => {
           if (err) {
             throw new Error(err.message);
@@ -251,12 +251,12 @@ export default class AwsGenerator extends BaseGenerator {
           }
         });
       }),
-      createApplication: runAsync(function () {
+      createApplication: runAsync(async function() {
         const cb = this.async();
         this.log.log();
         this.log.log(chalk.bold('Create/Update application'));
 
-        const eb = this.awsFactory.getEb();
+        const eb = await this.awsFactory.getEb();
 
         const params = {
           applicationName: this.applicationName,

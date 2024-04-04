@@ -11,7 +11,7 @@ import { GRADLE } from '../../gradle/constants.js';
  * @returns {object} the command line and its result
  */
 export function buildApplication(buildTool, profile, buildWar, cb) {
-  let buildCmd = 'mvnw -ntp verify -B';
+  let buildCmd = './mvnw -ntp verify -B';
 
   if (buildTool === GRADLE) {
     buildCmd = 'gradlew';
